@@ -40,6 +40,7 @@ class Tile
         TileState state_;
         int length_;
         int width_;
+        int neighbors[4]; // store the surrounding tiles
         long unsigned int x_coord_;
         long unsigned int y_coord_;
 };

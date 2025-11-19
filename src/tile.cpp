@@ -38,7 +38,7 @@ void Tile::setEndPoint()
 
 void Tile::setPath()
 {
-    this->tile_.setFillColor(sf::Color(0,87,255));
+    this->tile_.setFillColor(sf::Color(250,129,0));
     this->state_ = Path;
 }
 

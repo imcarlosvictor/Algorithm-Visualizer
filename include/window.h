@@ -13,7 +13,7 @@
 class SFMLWindow
 {
     public:
-        SFMLWindow(int width, int height, std::string title);
+        SFMLWindow();
         void LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr);
         void LoadSFMLWidgets(sf::RenderWindow& window);
         void CreateLegendLabel(tgui::GuiBase& gui, std::string text, int size, int x, int y);

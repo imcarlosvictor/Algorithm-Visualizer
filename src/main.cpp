@@ -5,5 +5,7 @@
  
 int main()
 {
+    SFMLWindow();
+
     return 0;
 }

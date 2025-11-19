@@ -2,18 +2,47 @@
 #include "../include/grid.h"
 
 
-SFMLWindow::SFMLWindow(int width, int height, std::string title)
+SFMLWindow::SFMLWindow()
 {
-    sf::RenderWindow sfml_window(sf::VideoMode(1530,900), "Pathfinder Visualizer", sf::Style::Close);
+    sf::RenderWindow sfml_window(sf::VideoMode(1530,900), "Pathfinder Visualizer");
 
-    // Create grid
+    // Make grid
+    Grid* grid_ptr = new Grid(40,30);
+    tgui::GuiSFML gui{sfml_window};
 
+    // TODO: Add recursive mapping algorithm
 
-    // Handle window events
+    LoadTGUIWidgets(gui, grid_ptr);
 
-    // Handle mosue events
+    // Event Handling
+    while (sfml_window.isOpen())
+    {
+        sf::Event event;
+        while (sfml_window.pollEvent(event))
+        {
+            gui.handleEvent(event); // informs TexasGUI so it can handle any events for the widgets
+            if (event.type == sf::Event::Closed)
+            {
+                sfml_window.close();
+            }
+        }
 
-    // update grid
+        sfml_window.clear(sf::Color(19,19,19));
+        LoadSFMLWidgets(sfml_window); // load legend section
+        gui.draw(); // draw all widgets
+
+        // Mouse Events
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+        {
+            sf::Vector2i mouse_position = sf::Mouse::getPosition(sfml_window); // get mouse position from the sfml window
+            Coordinates coord = grid_ptr->getMousePos(mouse_position);  // Find the exact tile from the values in mouse_position
+            grid_ptr->TilePressed(coord); // update tile
+        }
+
+        // Update grid
+        grid_ptr->RefreshGrid(sfml_window);
+        sfml_window.display();
+    }
 }
 
 void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
@@ -113,10 +142,10 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
     // Start button
     auto visualize_btn = tgui::Button::create();
     visualize_btn->setText("VISUALIZE");
-    visualize_btn->getRenderer()->setBackgroundColor(sf::Color(0,87,255));
+    visualize_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
     visualize_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
-    visualize_btn->getRenderer()->setTextColor(sf::Color(213,213,213));
-    visualize_btn->getRenderer()->setBackgroundColorHover(sf::Color(0,87,255,200));
+    // visualize_btn->getRenderer()->setTextColor(sf::Color(213,213,213));
+    visualize_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
     visualize_btn->getRenderer()->setTextColorHover(sf::Color(19,19,19,200));
     visualize_btn->setSize(250,50);
     visualize_btn->setPosition(40, 780);
@@ -125,11 +154,11 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
 
 void SFMLWindow::LoadSFMLWidgets(sf::RenderWindow& window)
 {
-    CreateLegendTile(window, 30, 30, 34, 139, 34, 43, 460);  // Startpoint tile
-    CreateLegendTile(window, 30, 30, 255, 0, 4, 43, 500);  // Endpoint tile
-    CreateLegendTile(window, 30, 30, 0, 87, 255, 43, 540);  // Path tile
+    CreateLegendTile(window, 30, 30, 161, 106, 209, 43, 460);  // Startpoint tile
+    CreateLegendTile(window, 30, 30, 180, 60, 70, 43, 500);  // Endpoint tile
+    CreateLegendTile(window, 30, 30, 237, 255, 140, 43, 540);  // Path tile
     CreateLegendTile(window, 30, 30, 255, 255, 255, 43, 580);  // Unexplored tile
-    CreateLegendTile(window, 30, 30, 220, 226, 254, 180, 460);  // Explored tile
+    CreateLegendTile(window, 30, 30, 207, 225, 202, 180, 460);  // Explored tile
     CreateLegendTile(window, 30, 30, 64, 64, 64, 180, 500);  // Border tile
 }
 

@@ -12,7 +12,7 @@ LDFLAGS  := -L$(LIB)
 LIBS     := -ltgui -lsfml-graphics -lsfml-window -lsfml-system
 
 # Output executable
-EXEC     := main
+EXEC     := algo_visualizer
 
 # Find sources and generate object list
 SRCS     := $(wildcard $(SRC)/*.cpp)
