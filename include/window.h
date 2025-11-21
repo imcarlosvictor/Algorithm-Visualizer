@@ -9,7 +9,6 @@
 // add libraries here
 #include "./grid.h"
 
-
 class SFMLWindow
 {
     public:

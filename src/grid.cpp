@@ -1,18 +1,22 @@
 #include "../include/grid.h"
 
-Grid::Grid(int rows, int columns) {
+Grid::Grid(int rows, int columns) 
+{
     this->rows_ = rows; 
     this->columns_ = columns;
     this->DrawGrid();
 }
 
-void Grid::DrawGrid() {
+void Grid::DrawGrid() 
+{
     int length = 30, width = 30;
     int y_coord = 0;
     // Add tiles
-    for (int col = 0; col < 30; col++) {
+    for (int col = 0; col < 30; col++) 
+    {
         int x_coord = 330; // starts at 330 due to the sidebar on the lefthand-side
-        for (int row = 0; row < 40; row++) {
+        for (int row = 0; row < 40; row++) 
+        {
             Tile* new_tile = new Tile(length, width, x_coord, y_coord);
             new_tile->CreateTile();
             this->grid_.push_back(new_tile);
@@ -23,43 +27,98 @@ void Grid::DrawGrid() {
     }
 }
 
-void Grid::ClearGrid() {
+void Grid::ClearGrid() 
+{
     for (Tile* tile : this->grid_) {
         tile->setFloor();
     }
 }
 
-void Grid::ClearPath() {
+void Grid::ClearPath() 
+{
     std::cout << "hello" << std::endl;
-    for (Tile* tile : this->grid_) {
-        if (tile->getTileState() == 2 || tile->getTileState() == 3) {
+    for (Tile* tile : this->grid_) 
+    {
+        if (tile->getTileState() == 2 || tile->getTileState() == 3) 
+        {
             tile->setFloor();
         }
     }
 }
 
-void Grid::RefreshGrid(sf::RenderWindow& window) {
+void Grid::RefreshGrid(sf::RenderWindow& window) 
+{
     for (Tile* tile : this->grid_) {
         tile->DrawTile(window);
     }
 }
 
-void Grid::TilePressed(Coordinates coord) {
+// TODO: Both functions work but tiles are only set as wall. setstartpoint() and setendpoint() are being skipped
+void Grid::TilePressed(Coordinates coordinate) 
+{
     // Find the tile with the coordinates in the vector
-    for (Tile* tile : this->grid_) {
-        if (tile->getXCoord() == coord.x_coord && tile->getYCoord() == coord.y_coord) {
-            tile->setWall();
-            /* std::cout << "Tile State:" << tile->getTileState() << std::endl; */
-            break;
+    for (Tile* tile : this->grid_) 
+    {
+        if (tile->getXPosition() == coordinate.x_position && tile->getYPosition() == coordinate.y_position) 
+        {
+            switch (this->active_tile_state_)
+            {
+                case CursorAsStartPoint: 
+                    tile->setStartPoint();
+                    std::cout << "Startpoint" << std::endl;
+                    break;
+                case CursorAsEndPoint:
+                    tile->setEndPoint();
+                    std::cout << "Endpoint" << std::endl;
+                    break;
+                case CursorAsWall:
+                    tile->setWall();
+                    std::cout << "Wall" << std::endl;
+                    break;
+            }
         }
+        std::cout << "Wall" << std::endl;
+        break;
+    }
+    this->active_tile_state_ = CursorAsWall; // reset tile option
+    // std::cout << "********************* " << std::endl;
+    std::cout << "active tile state: " << this->active_tile_state_ << std::endl;
+}
+
+void Grid::ChangeActiveTile(ActiveTileState user_input)
+{
+    // Add a check to see if a start/end point is already establish -> return a warning
+    if (this->CheckTiles(user_input))
+    {
+        std::cout << "Tile state has been established" << std::endl;
+        this->active_tile_state_ = CursorAsWall;
+    } 
+    else 
+    {
+        this->active_tile_state_ = user_input;
+        std::cout << "active tile state: " << this->active_tile_state_ << std::endl;
     }
 }
 
-void Grid::getTileNeighbors(Coordinates coord) {
+bool Grid::CheckTiles(int tile_state)
+{
+    for (Tile* tile : this->grid_)
+    {
+        if ( this->active_tile_state_ == tile_state && tile->getTileState() == tile_state)
+        {
+            std::cout << "Tile state has been established" << std::endl;
+            return true;
+        }
+    }
+    return false;
+}
+
+void Grid::getTileNeighbors(Coordinates coordinate) 
+{
     // Find index of the pressed tile in the vector
     long unsigned int tile_vip_index = 0;
     for (long unsigned int i=0; i<this->grid_.size(); i++) {
-        if (this->grid_[i]->getXCoord() == coord.x_coord && this->grid_[i]->getYCoord() == coord.y_coord)
+        if (this->grid_[i]->getXPosition() == coordinate.x_position && this->grid_[i]->getYPosition() == coordinate.y_position)
             tile_vip_index = i;
     }
 
@@ -197,15 +256,17 @@ void Grid::getTileNeighbors(Coordinates coord) {
 /*     } */
 /* } */
 
-Coordinates Grid::getMousePos(sf::Vector2i mouse_pos) {
+Coordinates Grid::getMousePos(sf::Vector2i mouse_pos) 
+{
     // Find the coordinate of the tile (Top left of tile)
     long unsigned int x = (mouse_pos.x / 30) * 30;
     long unsigned int y = (mouse_pos.y - (mouse_pos.y % 30));
-    Coordinates coord {x, y};
-    return coord;
+    Coordinates position {x, y};
+    return position;
 }
 
-GridDimension Grid::getGridDimension() {
+GridDimension Grid::getGridDimension() 
+{
     int rows = this->rows_;
     int columns = this->columns_;
     GridDimension grid_dim {rows, columns};

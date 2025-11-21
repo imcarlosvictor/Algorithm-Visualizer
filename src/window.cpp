@@ -34,9 +34,11 @@ SFMLWindow::SFMLWindow()
         // Mouse Events
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
         {
+            
             sf::Vector2i mouse_position = sf::Mouse::getPosition(sfml_window); // get mouse position from the sfml window
             Coordinates coord = grid_ptr->getMousePos(mouse_position);  // Find the exact tile from the values in mouse_position
-            grid_ptr->TilePressed(coord); // update tile
+            // grid_ptr->TilePressed(coord); // update tile
+            grid_ptr->TilePressed(coord);
         }
 
         // Update grid
@@ -113,6 +115,32 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
     /*         }) */
     gui.add(algo_btn);
     
+    // TODO: Add startpoint and endpoint buttons    
+    // Add Startpoint button
+    auto add_startpoint_btn = tgui::Button::create();
+    add_startpoint_btn->setText("Set Start Point");
+    add_startpoint_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
+    add_startpoint_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    add_startpoint_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+    add_startpoint_btn->setSize(125,35);
+    add_startpoint_btn->setPosition(40, 709);
+    add_startpoint_btn->onPress([=]{ 
+            grid_ptr->ChangeActiveTile(CursorAsStartPoint);
+            });
+    gui.add(add_startpoint_btn);
+
+    auto add_endpoint_btn = tgui::Button::create();
+    add_endpoint_btn->setText("Set End Point");
+    add_endpoint_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
+    add_endpoint_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    add_endpoint_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+    add_endpoint_btn->setSize(125,35);
+    add_endpoint_btn->setPosition(165, 709);
+    add_endpoint_btn->onPress([=]{ 
+            grid_ptr->ChangeActiveTile(CursorAsEndPoint);
+            });
+    gui.add(add_endpoint_btn);
+
     // Reset maze button
     auto reset_maze_btn = tgui::Button::create();
     reset_maze_btn->setText("Clear Maze");

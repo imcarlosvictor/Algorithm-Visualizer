@@ -9,14 +9,21 @@
 
 struct Coordinates
 {
-    long unsigned int x_coord;
-    long unsigned int y_coord;
+    long unsigned int x_position;
+    long unsigned int y_position;
 };
 
 struct GridDimension
 {
     int rows;
     int columns;
+};
+
+enum ActiveTileState
+{
+    CursorAsStartPoint,
+    CursorAsEndPoint,
+    CursorAsWall,
 };
 
 class Grid
@@ -27,12 +34,17 @@ class Grid
         void ClearGrid();
         void ClearPath();
         void RefreshGrid(sf::RenderWindow& window);
-        void TilePressed(Coordinates);
+        void TilePressed(Coordinates coordinate);
+        void ChangeActiveTile(ActiveTileState user_input);
+        bool CheckTiles(int tile_state);
         void getTileNeighbors(Coordinates);
         Coordinates getMousePos(sf::Vector2i mouse_pos);
         GridDimension getGridDimension();
+
+
     private:
         int rows_;
         int columns_;
+        ActiveTileState active_tile_state_ = CursorAsWall;
         std::vector<Tile*> grid_;
 };

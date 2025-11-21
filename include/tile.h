@@ -2,16 +2,17 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <iostream>
 
 // Determines the state of the tile every time it is reset
 enum TileState
 {
     Start = 0,
     End,
+    Wall,
     Path,
     Explored,
-    Floor,
-    Wall
+    Floor
 };
 
 // Add weights to the tile for pathfinding algorithm
@@ -29,8 +30,8 @@ class Tile
         void setFloor();
         void setWall();
         void setCoordinate(int x, int y);
-        long unsigned int getXCoord();
-        long unsigned int getYCoord();
+        long unsigned int getXPosition();
+        long unsigned int getYPosition();
         TileState getTileState();
         int getTileLength();
         int getTileWidth();
@@ -41,6 +42,6 @@ class Tile
         int length_;
         int width_;
         int neighbors[4]; // store the surrounding tiles
-        long unsigned int x_coord_;
-        long unsigned int y_coord_;
+        long unsigned int x_position_;
+        long unsigned int y_position_;
 };

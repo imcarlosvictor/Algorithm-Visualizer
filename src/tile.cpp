@@ -1,13 +1,13 @@
 #include "../include/tile.h"
 
-Tile::Tile(int length, int width, int x_coord, int y_coord)
+Tile::Tile(int length, int width, int x_position, int y_position)
 {
     this->tile_ = sf::RectangleShape(sf::Vector2f(this->length_, this->width_));
     this->state_ = Floor;
     this->length_ = length;
     this->width_ = width;
-    this->x_coord_ = x_coord;
-    this->y_coord_ = y_coord;
+    this->x_position_ = x_position;
+    this->y_position_ = y_position;
 }
 
 void Tile::CreateTile()
@@ -16,7 +16,7 @@ void Tile::CreateTile()
     this->tile_.setFillColor(sf::Color(255,255,255));
     this->tile_.setOutlineColor(sf::Color(64,64,64));
     this->tile_.setOutlineThickness(.5);
-    this->tile_.setPosition(this->x_coord_, this->y_coord_);
+    this->tile_.setPosition(this->x_position_, this->y_position_);
 }
 
 void Tile::DrawTile(sf::RenderWindow& window)
@@ -26,13 +26,13 @@ void Tile::DrawTile(sf::RenderWindow& window)
 
 void Tile::setStartPoint()
 {
-    this->tile_.setFillColor(sf::Color(34,139,34));
+    this->tile_.setFillColor(sf::Color(161,106,209));
     this->state_ = Start;
 }
 
 void Tile::setEndPoint()
 {
-    this->tile_.setFillColor(sf::Color(244,48,10));
+    this->tile_.setFillColor(sf::Color(180,60,70));
     this->state_ = End;
 }
 
@@ -62,18 +62,18 @@ void Tile::setWall()
 
 void Tile::setCoordinate(int x, int y)
 {
-    this->x_coord_ = x;
-    this->y_coord_ = y;
+    this->x_position_ = x;
+    this->y_position_ = y;
 }
 
-long unsigned int Tile::getXCoord()
+long unsigned int Tile::getXPosition()
 {
-    return x_coord_;
+    return x_position_;
 }
 
-long unsigned int Tile::getYCoord()
+long unsigned int Tile::getYPosition()
 {
-    return y_coord_;
+    return y_position_;
 }
 
 TileState Tile::getTileState()
