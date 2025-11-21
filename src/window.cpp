@@ -36,9 +36,9 @@ SFMLWindow::SFMLWindow()
         {
             
             sf::Vector2i mouse_position = sf::Mouse::getPosition(sfml_window); // get mouse position from the sfml window
-            Coordinates coord = grid_ptr->getMousePos(mouse_position);  // Find the exact tile from the values in mouse_position
+            Coordinates cursor_coordinate = grid_ptr->getMousePos(mouse_position);  // Find the exact tile from the values in mouse_position
             // grid_ptr->TilePressed(coord); // update tile
-            grid_ptr->TilePressed(coord);
+            grid_ptr->TilePressed(cursor_coordinate);
         }
 
         // Update grid

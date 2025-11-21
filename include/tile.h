@@ -30,8 +30,8 @@ class Tile
         void setFloor();
         void setWall();
         void setCoordinate(int x, int y);
-        long unsigned int getXPosition();
-        long unsigned int getYPosition();
+        long unsigned int getXCoordinate();
+        long unsigned int getYCoordinate();
         TileState getTileState();
         int getTileLength();
         int getTileWidth();

@@ -66,12 +66,12 @@ void Tile::setCoordinate(int x, int y)
     this->y_position_ = y;
 }
 
-long unsigned int Tile::getXPosition()
+long unsigned int Tile::getXCoordinate()
 {
     return x_position_;
 }
 
-long unsigned int Tile::getYPosition()
+long unsigned int Tile::getYCoordinate()
 {
     return y_position_;
 }

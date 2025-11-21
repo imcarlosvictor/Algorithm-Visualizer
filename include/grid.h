@@ -9,8 +9,8 @@
 
 struct Coordinates
 {
-    long unsigned int x_position;
-    long unsigned int y_position;
+    long unsigned int x;
+    long unsigned int y;
 };
 
 struct GridDimension
