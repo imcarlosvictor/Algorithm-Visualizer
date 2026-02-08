@@ -12,10 +12,10 @@ void Grid::DrawGrid()
     int length = 30, width = 30;
     int y_coordinate = 0;
     // Add tiles
-    for (int col = 0; col < 30; col++) 
+    for (int col = 0; col < this->columns_; col++) 
     {
         int x_coordinate = 330; // starts at 330 due to the sidebar on the lefthand-side
-        for (int row = 0; row < 40; row++) 
+        for (int row = 0; row < this->rows_; row++) 
         {
             Tile* new_tile = new Tile(length, width, x_coordinate, y_coordinate);
             new_tile->CreateTile();
@@ -81,16 +81,17 @@ void Grid::TilePressed(Coordinates cursor_coordinate)
                 {
                     case CursorAsStartPoint: 
                         tile->setStartPoint();
-                        std::cout << "Startpoint Set" << std::endl;
+                        std::cout << "++++++++++++ Start Tile ++++++++++++" << std::endl;
+                        std::cout << "X position: " << tile->getXCoordinate() << std::endl;
+                        std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
                         break;
                     case CursorAsEndPoint:
                         tile->setEndPoint();
-                        std::cout << "Endpoint Set" << std::endl;
+                        std::cout << "------------- End Tile -------------" << std::endl;
+                        std::cout << "X position: " << tile->getXCoordinate() << std::endl;
+                        std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
                         break;
                 }
-                std::cout << "Changing Tile..." << std::endl;
-                std::cout << "X position: " << tile->getXCoordinate() << std::endl;
-                std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
             }
         }
     }

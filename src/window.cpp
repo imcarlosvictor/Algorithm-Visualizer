@@ -84,9 +84,15 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
     // Generate Map Button
     auto generate_map_btn = tgui::Button::create();
     generate_map_btn->setText("Generate Map");
-    generate_map_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
-    generate_map_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    // generate_map_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
+    // generate_map_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    // generate_map_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+
+    generate_map_btn->getRenderer()->setBackgroundColor(sf::Color(43,45,48));
+    generate_map_btn->getRenderer()->setBorderColor(sf::Color(10,10,10));
+    generate_map_btn->getRenderer()->setTextColor(sf::Color(191,191,191));
     generate_map_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+
     generate_map_btn->setSize(250,40);
     generate_map_btn->setPosition(40, 240);
     // *************** RECURSIVE DIVSION ALGORITHM 
@@ -120,9 +126,15 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
     // Add Startpoint button
     auto add_startpoint_btn = tgui::Button::create();
     add_startpoint_btn->setText("Set Start Point");
-    add_startpoint_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
-    add_startpoint_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    // add_startpoint_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
+    // add_startpoint_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    // add_startpoint_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+
+    add_startpoint_btn->getRenderer()->setBackgroundColor(sf::Color(43,45,48));
+    add_startpoint_btn->getRenderer()->setBorderColor(sf::Color(10,10,10));
+    add_startpoint_btn->getRenderer()->setTextColor(sf::Color(191,191,191));
     add_startpoint_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+
     add_startpoint_btn->setSize(125,35);
     add_startpoint_btn->setPosition(40, 709);
     add_startpoint_btn->onPress([=]{ 
@@ -132,9 +144,15 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
 
     auto add_endpoint_btn = tgui::Button::create();
     add_endpoint_btn->setText("Set End Point");
-    add_endpoint_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
-    add_endpoint_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    // add_endpoint_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
+    // add_endpoint_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    // add_endpoint_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+
+    add_endpoint_btn->getRenderer()->setBackgroundColor(sf::Color(43,45,48));
+    add_endpoint_btn->getRenderer()->setBorderColor(sf::Color(10,10,10));
+    add_endpoint_btn->getRenderer()->setTextColor(sf::Color(191,191,191));
     add_endpoint_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+
     add_endpoint_btn->setSize(125,35);
     add_endpoint_btn->setPosition(165, 709);
     add_endpoint_btn->onPress([=]{ 
@@ -143,24 +161,36 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
     gui.add(add_endpoint_btn);
 
     // Reset maze button
-    auto reset_maze_btn = tgui::Button::create();
-    reset_maze_btn->setText("Clear Maze");
-    reset_maze_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
-    reset_maze_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
-    reset_maze_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
-    reset_maze_btn->setSize(125,35);
-    reset_maze_btn->setPosition(40, 744);
-    reset_maze_btn->onPress([=]{ 
+    auto clear_maze_btn = tgui::Button::create();
+    clear_maze_btn->setText("Clear Maze");
+    // reset_maze_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
+    // reset_maze_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    // clear_maze_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+
+    clear_maze_btn->getRenderer()->setBackgroundColor(sf::Color(43,45,48));
+    clear_maze_btn->getRenderer()->setBorderColor(sf::Color(10,10,10));
+    clear_maze_btn->getRenderer()->setTextColor(sf::Color(191,191,191));
+    clear_maze_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+
+    clear_maze_btn->setSize(125,35);
+    clear_maze_btn->setPosition(40, 744);
+    clear_maze_btn->onPress([=]{ 
             grid_ptr->ClearGrid();
             });
-    gui.add(reset_maze_btn);
+    gui.add(clear_maze_btn);
     
     // Reset path button
     auto reset_path_btn = tgui::Button::create();
     reset_path_btn->setText("Reset Path");
-    reset_path_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
-    reset_path_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    // reset_path_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
+    // reset_path_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    // reset_path_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+
+    reset_path_btn->getRenderer()->setBackgroundColor(sf::Color(43,45,48));
+    reset_path_btn->getRenderer()->setBorderColor(sf::Color(10,10,10));
+    reset_path_btn->getRenderer()->setTextColor(sf::Color(191,191,191));
     reset_path_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+
     reset_path_btn->setSize(125,35);
     reset_path_btn->setPosition(165, 744);
     reset_path_btn->onPress([=]{
@@ -171,11 +201,16 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
     // Start button
     auto visualize_btn = tgui::Button::create();
     visualize_btn->setText("VISUALIZE");
-    visualize_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
-    visualize_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
-    // visualize_btn->getRenderer()->setTextColor(sf::Color(213,213,213));
+    // visualize_btn->getRenderer()->setBackgroundColor(sf::Color(213,213,213));
+    // visualize_btn->getRenderer()->setBorderColor(sf::Color(19,19,19));
+    // visualize_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
+    // visualize_btn->getRenderer()->setTextColorHover(sf::Color(19,19,19,200));
+
+    visualize_btn->getRenderer()->setBackgroundColor(sf::Color(43,45,48));
+    visualize_btn->getRenderer()->setBorderColor(sf::Color(10,10,10));
+    visualize_btn->getRenderer()->setTextColor(sf::Color(191,191,191));
     visualize_btn->getRenderer()->setBackgroundColorHover(sf::Color(213,213,213,200));
-    visualize_btn->getRenderer()->setTextColorHover(sf::Color(19,19,19,200));
+
     visualize_btn->setSize(250,50);
     visualize_btn->setPosition(40, 780);
     gui.add(visualize_btn);
@@ -186,12 +221,12 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
 */
 void SFMLWindow::LoadSFMLWidgets(sf::RenderWindow& window)
 {
-    CreateLegendTile(window, 30, 30, 43, 460, 96, 208, 254);  // Startpoint tile
-    CreateLegendTile(window, 30, 30, 43, 500, 255, 154, 48);  // Endpoint tile
-    CreateLegendTile(window, 30, 30, 43, 540, 200, 254, 7);  // Path tile
-    CreateLegendTile(window, 30, 30, 43, 580, 48, 157, 122);  // Explored tile
-    CreateLegendTile(window, 30, 30, 180, 460, 227, 235, 238);  // Floor tile
-    CreateLegendTile(window, 30, 30, 180, 500, 45, 48, 53);  // Border tile
+    CreateLegendTile(window, 30, 30, 43, 460, 251, 255, 108);  // Startpoint tile
+    CreateLegendTile(window, 30, 30, 43, 500, 255, 67, 38);  // Endpoint tile
+    CreateLegendTile(window, 30, 30, 43, 540, 228, 235, 238);  // Path tile
+    CreateLegendTile(window, 30, 30, 43, 580, 102, 107, 112);  // Explored tile
+    CreateLegendTile(window, 30, 30, 180, 460, 43, 48, 53);  // Floor tile
+    CreateLegendTile(window, 30, 30, 180, 500, 10, 10, 10);  // Border tile
 }
 
 void SFMLWindow::CreateLegendLabel(tgui::GuiBase& gui, std::string text, int size, int x, int y)

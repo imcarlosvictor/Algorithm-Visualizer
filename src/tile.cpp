@@ -13,8 +13,14 @@ Tile::Tile(int length, int width, int x_position, int y_position)
 void Tile::CreateTile()
 {
     this->tile_.setSize(sf::Vector2f(this->length_, this->width_));
-    this->tile_.setFillColor(sf::Color(227,235,238));
-    this->tile_.setOutlineColor(sf::Color(73,73,73));
+    // Light theme
+    // this->tile_.setFillColor(sf::Color(227,235,238));
+    // this->tile_.setOutlineColor(sf::Color(73,73,73));
+
+    // Dark theme
+    this->tile_.setFillColor(sf::Color(45,48,53));
+    this->tile_.setOutlineColor(sf::Color(10,10,10));
+
     this->tile_.setOutlineThickness(.5);
     this->tile_.setPosition(this->x_position_, this->y_position_);
 }
@@ -26,38 +32,41 @@ void Tile::DrawTile(sf::RenderWindow& window)
 
 void Tile::setStartPoint()
 {
-    this->tile_.setFillColor(sf::Color(96,208,254));
+    this->tile_.setFillColor(sf::Color(251,255,108));
     this->state_ = Start;
 }
 
 void Tile::setEndPoint()
 {
-    this->tile_.setFillColor(sf::Color(255,154,48));
+    this->tile_.setFillColor(sf::Color(255,67,38));
     this->state_ = End;
 }
 
 void Tile::setPath()
 {
-    this->tile_.setFillColor(sf::Color(200,254,7));
+    this->tile_.setFillColor(sf::Color(228,235,238));
     this->state_ = Path;
 }
 
 void Tile::setExplored()
 {
-    this->tile_.setFillColor(sf::Color(48,157,122));
+    // this->tile_.setFillColor(sf::Color(48,157,122));
+    this->tile_.setFillColor(sf::Color(102,107,112));
     this->state_ = Explored;
 }
 
 void Tile::setFloor()
 {
-    this->tile_.setFillColor(sf::Color(227,235,238));
+    // this->tile_.setFillColor(sf::Color(227,235,238));
+    this->tile_.setFillColor(sf::Color(43,48,53));
     this->state_ = Floor;
 }
 
 void Tile::setWall()
 {
-    this->tile_.setFillColor(sf::Color(45,48,53));
+    this->tile_.setFillColor(sf::Color(10,10,10));
     this->state_ = Wall;
+    std::cout << "Wall Set" << std::endl;
 }
 
 void Tile::setCoordinate(int x, int y)
