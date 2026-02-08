@@ -37,8 +37,7 @@ SFMLWindow::SFMLWindow()
             
             sf::Vector2i mouse_position = sf::Mouse::getPosition(sfml_window); // get mouse position from the sfml window
             Coordinates cursor_coordinate = grid_ptr->getMousePos(mouse_position);  // Find the exact tile from the values in mouse_position
-            // grid_ptr->TilePressed(coord); // update tile
-            grid_ptr->TilePressed(cursor_coordinate);
+            grid_ptr->TilePressed(cursor_coordinate); // update tile
         }
 
         // Update grid
@@ -57,8 +56,10 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
     CreateLegendLabel(gui, "Startpoint", 12, 80, 467);  // Startpoint legend label
     CreateLegendLabel(gui, "Endpoint", 12, 80, 507);  // Endpoint legend label
     CreateLegendLabel(gui, "Path", 12, 80, 547);  // Path legend label
-    CreateLegendLabel(gui, "Unexplored", 12, 80, 587);  // Unxplored legend label
-    CreateLegendLabel(gui, "Explored", 12, 218, 467);  // Explored legend label
+    // CreateLegendLabel(gui, "Floor", 12, 80, 587);  // Unxplored legend label
+    // CreateLegendLabel(gui, "Explored", 12, 218, 467);  // Explored legend label
+    CreateLegendLabel(gui, "Explored", 12, 80, 587);  // Unxplored legend label
+    CreateLegendLabel(gui, "Floor", 12, 218, 467);  // Explored legend label
     CreateLegendLabel(gui, "Wall", 12, 218, 507);  // Border legend label
     
     // Map algorithm sidenote
@@ -180,14 +181,17 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
     gui.add(visualize_btn);
 }
 
+/*
+    Creates the tiles for the legend section of the GUI
+*/
 void SFMLWindow::LoadSFMLWidgets(sf::RenderWindow& window)
 {
-    CreateLegendTile(window, 30, 30, 161, 106, 209, 43, 460);  // Startpoint tile
-    CreateLegendTile(window, 30, 30, 180, 60, 70, 43, 500);  // Endpoint tile
-    CreateLegendTile(window, 30, 30, 237, 255, 140, 43, 540);  // Path tile
-    CreateLegendTile(window, 30, 30, 255, 255, 255, 43, 580);  // Unexplored tile
-    CreateLegendTile(window, 30, 30, 207, 225, 202, 180, 460);  // Explored tile
-    CreateLegendTile(window, 30, 30, 64, 64, 64, 180, 500);  // Border tile
+    CreateLegendTile(window, 30, 30, 43, 460, 96, 208, 254);  // Startpoint tile
+    CreateLegendTile(window, 30, 30, 43, 500, 255, 154, 48);  // Endpoint tile
+    CreateLegendTile(window, 30, 30, 43, 540, 200, 254, 7);  // Path tile
+    CreateLegendTile(window, 30, 30, 43, 580, 48, 157, 122);  // Explored tile
+    CreateLegendTile(window, 30, 30, 180, 460, 227, 235, 238);  // Floor tile
+    CreateLegendTile(window, 30, 30, 180, 500, 45, 48, 53);  // Border tile
 }
 
 void SFMLWindow::CreateLegendLabel(tgui::GuiBase& gui, std::string text, int size, int x, int y)
@@ -201,7 +205,7 @@ void SFMLWindow::CreateLegendLabel(tgui::GuiBase& gui, std::string text, int siz
     gui.add(lbl);
 }
 
-void SFMLWindow::CreateLegendTile(sf::RenderWindow& window, int length, int width, int r, int g, int b, int x, int y)
+void SFMLWindow::CreateLegendTile(sf::RenderWindow& window, int length, int width, int x, int y, int r, int g, int b)
 {
     sf::RectangleShape legend_tile;
     legend_tile.setSize(sf::Vector2f(length, width));

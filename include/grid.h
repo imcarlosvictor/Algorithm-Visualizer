@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window/Event.hpp>
 
 
 struct Coordinates

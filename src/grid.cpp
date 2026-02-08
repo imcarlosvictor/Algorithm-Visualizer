@@ -57,30 +57,40 @@ void Grid::TilePressed(Coordinates cursor_coordinate)
 {
     // Find the tile with the coordinates in the vector
     // TODO: if statement isnt working
-    std::cout << "****************************" << std::endl;
-    std::cout << "coordinate X: " << cursor_coordinate.x << std::endl;
-    std::cout << "coordinate Y: " << cursor_coordinate.y << std::endl;
+    // std::cout << "****************************" << std::endl;
+    // std::cout << "coordinate X: " << cursor_coordinate.x << std::endl;
+    // std::cout << "coordinate Y: " << cursor_coordinate.y << std::endl;
     for (Tile* tile : this->grid_) 
     {
         if (tile->getXCoordinate() == cursor_coordinate.x && tile->getYCoordinate() == cursor_coordinate.y) 
         {
-            std::cout << "Changing Tile..." << std::endl;
-            std::cout << "X position: " << tile->getXCoordinate() << std::endl;
-            std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
-            switch (this->active_tile_state_)
+            // std::cout << "Changing Tile..." << std::endl;
+            // std::cout << "X position: " << tile->getXCoordinate() << std::endl;
+            // std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
+            // std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
+            if (this->active_tile_state_ == CursorAsWall)
             {
-                case CursorAsStartPoint: 
-                    tile->setStartPoint();
-                    std::cout << "Startpoint" << std::endl;
-                    break;
-                case CursorAsEndPoint:
-                    tile->setEndPoint();
-                    std::cout << "Endpoint" << std::endl;
-                    break;
-                case CursorAsWall:
-                    tile->setWall();
-                    std::cout << "Wall" << std::endl;
-                    break;
+                tile->setWall();
+                // std::cout << "Wall" << std::endl;
+                break;
+            }
+
+            if (sf::Event::MouseButtonReleased)
+            {
+                switch (this->active_tile_state_)
+                {
+                    case CursorAsStartPoint: 
+                        tile->setStartPoint();
+                        std::cout << "Startpoint Set" << std::endl;
+                        break;
+                    case CursorAsEndPoint:
+                        tile->setEndPoint();
+                        std::cout << "Endpoint Set" << std::endl;
+                        break;
+                }
+                std::cout << "Changing Tile..." << std::endl;
+                std::cout << "X position: " << tile->getXCoordinate() << std::endl;
+                std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
             }
         }
     }
