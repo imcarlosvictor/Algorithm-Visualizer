@@ -18,7 +18,8 @@ void Tile::CreateTile()
     // this->tile_.setOutlineColor(sf::Color(73,73,73));
 
     // Dark theme
-    this->tile_.setFillColor(sf::Color(45,48,53));
+    // this->tile_.setFillColor(sf::Color(45,48,53));
+    this->tile_.setFillColor(sf::Color(34,37,38));
     this->tile_.setOutlineColor(sf::Color(10,10,10));
 
     this->tile_.setOutlineThickness(.5);
@@ -44,20 +45,18 @@ void Tile::setEndPoint()
 
 void Tile::setPath()
 {
-    this->tile_.setFillColor(sf::Color(228,235,238));
+    this->tile_.setFillColor(sf::Color(80,99,133));
     this->state_ = Path;
 }
 
 void Tile::setExplored()
 {
-    // this->tile_.setFillColor(sf::Color(48,157,122));
-    this->tile_.setFillColor(sf::Color(102,107,112));
+    this->tile_.setFillColor(sf::Color(191,191,191));
     this->state_ = Explored;
 }
 
 void Tile::setFloor()
 {
-    // this->tile_.setFillColor(sf::Color(227,235,238));
     this->tile_.setFillColor(sf::Color(43,48,53));
     this->state_ = Floor;
 }

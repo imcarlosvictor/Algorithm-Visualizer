@@ -223,9 +223,9 @@ void SFMLWindow::LoadSFMLWidgets(sf::RenderWindow& window)
 {
     CreateLegendTile(window, 30, 30, 43, 460, 251, 255, 108);  // Startpoint tile
     CreateLegendTile(window, 30, 30, 43, 500, 255, 67, 38);  // Endpoint tile
-    CreateLegendTile(window, 30, 30, 43, 540, 228, 235, 238);  // Path tile
-    CreateLegendTile(window, 30, 30, 43, 580, 102, 107, 112);  // Explored tile
-    CreateLegendTile(window, 30, 30, 180, 460, 43, 48, 53);  // Floor tile
+    CreateLegendTile(window, 30, 30, 43, 540, 80, 99, 133);  // Path tile
+    CreateLegendTile(window, 30, 30, 43, 580, 191, 191, 191);  // Explored tile
+    CreateLegendTile(window, 30, 30, 180, 460, 34, 37, 38);  // Floor tile
     CreateLegendTile(window, 30, 30, 180, 500, 10, 10, 10);  // Border tile
 }
 
