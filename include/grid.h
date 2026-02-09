@@ -46,6 +46,12 @@ class Grid
     private:
         int rows_;
         int columns_;
+        bool start_point_set_ = false;
+        bool end_point_set_ = false;
+        int start_point_x;
+        int start_point_y;
+        int end_point_x;
+        int end_point_y;
         ActiveTileState active_tile_state_ = CursorAsWall;
         std::vector<Tile*> grid_;
 };

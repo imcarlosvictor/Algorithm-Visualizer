@@ -57,7 +57,8 @@ void Tile::setExplored()
 
 void Tile::setFloor()
 {
-    this->tile_.setFillColor(sf::Color(43,48,53));
+    // this->tile_.setFillColor(sf::Color(43,48,53)); // blue-grey floor
+    this->tile_.setFillColor(sf::Color(34,37,38));
     this->state_ = Floor;
 }
 

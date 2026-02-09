@@ -32,6 +32,8 @@ void Grid::ClearGrid()
     for (Tile* tile : this->grid_) {
         tile->setFloor();
     }
+    this->start_point_set_ = false;
+    this->end_point_set_ = false;
 }
 
 void Grid::ClearPath() 
@@ -56,52 +58,65 @@ void Grid::RefreshGrid(sf::RenderWindow& window)
 void Grid::TilePressed(Coordinates cursor_coordinate) 
 {
     // Find the tile with the coordinates in the vector
-    // TODO: if statement isnt working
-    // std::cout << "****************************" << std::endl;
-    // std::cout << "coordinate X: " << cursor_coordinate.x << std::endl;
-    // std::cout << "coordinate Y: " << cursor_coordinate.y << std::endl;
     for (Tile* tile : this->grid_) 
     {
         if (tile->getXCoordinate() == cursor_coordinate.x && tile->getYCoordinate() == cursor_coordinate.y) 
         {
-            // std::cout << "Changing Tile..." << std::endl;
-            // std::cout << "X position: " << tile->getXCoordinate() << std::endl;
-            // std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
-            // std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
-            if (this->active_tile_state_ == CursorAsWall)
+            switch (this->active_tile_state_)
             {
-                tile->setWall();
-                // std::cout << "Wall" << std::endl;
-                break;
-            }
-
-            if (sf::Event::MouseButtonReleased)
-            {
-                switch (this->active_tile_state_)
-                {
-                    case CursorAsStartPoint: 
+                case CursorAsStartPoint: 
+                    if (this->start_point_set_) {
+                        std::cout << "X position: " << start_point_x << std::endl;
+                        std::cout << "Y position: " << start_point_x << std::endl;
+                        break;
+                    } else {
                         tile->setStartPoint();
-                        std::cout << "++++++++++++ Start Tile ++++++++++++" << std::endl;
-                        std::cout << "X position: " << tile->getXCoordinate() << std::endl;
-                        std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
+                        this->start_point_set_ = true;
+                        this->start_point_x = tile->getXCoordinate();
+                        this->start_point_y = tile->getYCoordinate();
+                        std::cout << "Startpoint set? " << this->start_point_set_ << std::endl;
                         break;
-                    case CursorAsEndPoint:
+                    }
+                case CursorAsEndPoint:
+                    if (this->end_point_set_) {
+                        std::cout << "X position: " << end_point_x << std::endl;
+                        std::cout << "Y position: " << end_point_y << std::endl;
+                        break;
+                    } else {
                         tile->setEndPoint();
-                        std::cout << "------------- End Tile -------------" << std::endl;
-                        std::cout << "X position: " << tile->getXCoordinate() << std::endl;
-                        std::cout << "Y position: " << tile->getYCoordinate() << std::endl;
+                        this->end_point_set_ = true;
+                        this->end_point_x = tile->getXCoordinate();
+                        this->end_point_x = tile->getYCoordinate();
+                        std::cout << "Endpoint set? " << this->end_point_set_ << std::endl;
                         break;
-                }
+                    }
+                    break;
+                case CursorAsWall:
+                    tile->setWall();
+                    break;
             }
         }
     }
-    this->active_tile_state_ = CursorAsWall; // reset tile option
-    // std::cout << "Reset State to: " << this->active_tile_state_ << std::endl;
+
+    // TODO: Run a check to see if the start/end point has already been established -> if so, reset tile option to wall
 }
 
+/*
+    TODO: Add a function to lock a tile as start/end point once it has been set by the user. Only clearing the maze will 
+    reset the start/end point lock. This will prevent the user from accidentally changing the start/end point tile when they 
+    meant to set a wall tile.
+
+    - save coordinates of start/end point
+    - when user clicks on a tile, check if the tile coordinates match with the saved coordinates
+    - because setWall() is called on mousepressed, reset the tile to start/end point if the coordinates match
+*/
+
+
+/*
+    The active tile state is updated when the user clicks on either the start/end point button
+*/
 void Grid::ChangeActiveTile(ActiveTileState user_input)
 {
-    // Add a check to see if a start/end point is already establish -> return a warning
     if (this->CheckTiles(user_input))
     {
         this->active_tile_state_ = CursorAsWall;
@@ -115,9 +130,10 @@ void Grid::ChangeActiveTile(ActiveTileState user_input)
 
 bool Grid::CheckTiles(int tile_state)
 {
+    // Add a check to see if a start/end point is already establish -> return a warning
     for (Tile* tile : this->grid_)
     {
-        if ( this->active_tile_state_ == tile_state && tile->getTileState() == tile_state)
+        if (this->active_tile_state_ == tile_state && tile->getTileState() == tile_state)
         {
             std::cout << "Tile state has been established" << std::endl;
             return true;
