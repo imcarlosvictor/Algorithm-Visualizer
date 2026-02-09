@@ -65,34 +65,38 @@ void Grid::TilePressed(Coordinates cursor_coordinate)
             switch (this->active_tile_state_)
             {
                 case CursorAsStartPoint: 
-                    if (this->start_point_set_) {
-                        std::cout << "X position: " << start_point_x << std::endl;
-                        std::cout << "Y position: " << start_point_x << std::endl;
+                    if (this->start_point_set_) 
+                    {
+                        std::cout << "Startpoint has been established " <<  std::endl;
                         break;
-                    } else {
+                    } 
+                    else 
+                    {
                         tile->setStartPoint();
                         this->start_point_set_ = true;
                         this->start_point_x = tile->getXCoordinate();
                         this->start_point_y = tile->getYCoordinate();
-                        std::cout << "Startpoint set? " << this->start_point_set_ << std::endl;
                         break;
                     }
                 case CursorAsEndPoint:
-                    if (this->end_point_set_) {
-                        std::cout << "X position: " << end_point_x << std::endl;
-                        std::cout << "Y position: " << end_point_y << std::endl;
+                    if (this->end_point_set_) 
+                    {
+                        std::cout << "Endpoint has been established " <<  std::endl;
                         break;
-                    } else {
+                    } 
+                    else 
+                    {
                         tile->setEndPoint();
                         this->end_point_set_ = true;
                         this->end_point_x = tile->getXCoordinate();
-                        this->end_point_x = tile->getYCoordinate();
-                        std::cout << "Endpoint set? " << this->end_point_set_ << std::endl;
+                        this->end_point_y = tile->getYCoordinate();
                         break;
                     }
                     break;
                 case CursorAsWall:
                     tile->setWall();
+                    LockStartPoint(tile, cursor_coordinate.x, cursor_coordinate.y);
+                    LockEndPoint(tile, cursor_coordinate.x, cursor_coordinate.y);
                     break;
             }
         }
@@ -110,7 +114,23 @@ void Grid::TilePressed(Coordinates cursor_coordinate)
     - when user clicks on a tile, check if the tile coordinates match with the saved coordinates
     - because setWall() is called on mousepressed, reset the tile to start/end point if the coordinates match
 */
+void Grid::LockStartPoint(Tile* tile, int coordinate_x, int coordinate_y)
+{
+    if (coordinate_x == this->start_point_x && coordinate_y == this->start_point_y)
+    {
+        tile->setStartPoint();
+        std::cout << "Startpoint locked" << std::endl;
+    }
+}
 
+void Grid::LockEndPoint(Tile* tile, int coordinate_x, int coordinate_y)
+{
+    if (coordinate_x == this->end_point_x && coordinate_y == this->end_point_y)
+    {
+        tile->setEndPoint();
+        std::cout << "Endpoint locked" << std::endl;
+    }
+}
 
 /*
     The active tile state is updated when the user clicks on either the start/end point button

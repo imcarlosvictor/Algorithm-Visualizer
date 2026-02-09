@@ -36,6 +36,8 @@ class Grid
         void ClearPath();
         void RefreshGrid(sf::RenderWindow& window);
         void TilePressed(Coordinates coordinate);
+        void LockStartPoint(Tile* tile, int coordinate_x, int coordinate_y);
+        void LockEndPoint(Tile* tile, int coordinate_x, int coordinate_y);
         void ChangeActiveTile(ActiveTileState user_input);
         bool CheckTiles(int tile_state);
         void getTileNeighbors(Coordinates);

@@ -66,7 +66,6 @@ void Tile::setWall()
 {
     this->tile_.setFillColor(sf::Color(10,10,10));
     this->state_ = Wall;
-    std::cout << "Wall Set" << std::endl;
 }
 
 void Tile::setCoordinate(int x, int y)
