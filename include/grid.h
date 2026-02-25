@@ -32,9 +32,9 @@ class Grid
     public:
         Grid(int rows, int columns);
         void DrawGrid();
+        void RefreshGrid(sf::RenderWindow& window);
         void ClearGrid();
         void ClearPath();
-        void RefreshGrid(sf::RenderWindow& window);
         void TilePressed(Coordinates coordinate);
         void LockStartPoint(Tile* tile, int coordinate_x, int coordinate_y);
         void LockEndPoint(Tile* tile, int coordinate_x, int coordinate_y);
@@ -43,7 +43,6 @@ class Grid
         void getTileNeighbors(Coordinates);
         Coordinates getMousePos(sf::Vector2i mouse_pos);
         GridDimension getGridDimension();
-
 
     private:
         int rows_;

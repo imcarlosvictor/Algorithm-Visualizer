@@ -21,7 +21,7 @@ class Tile
 {
     public:
         Tile(int length, int width, int x_coord, int y_coord);
-        void CreateTile();
+        void SetTileCharacteristics();
         void DrawTile(sf::RenderWindow& window);
         void setStartPoint();
         void setEndPoint();

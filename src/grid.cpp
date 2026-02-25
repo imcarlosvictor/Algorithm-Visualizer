@@ -1,5 +1,6 @@
 #include "../include/grid.h"
 
+
 Grid::Grid(int rows, int columns) 
 {
     this->rows_ = rows; 
@@ -18,7 +19,7 @@ void Grid::DrawGrid()
         for (int row = 0; row < this->rows_; row++) 
         {
             Tile* new_tile = new Tile(length, width, x_coordinate, y_coordinate);
-            new_tile->CreateTile();
+            new_tile->SetTileCharacteristics();
             this->grid_.push_back(new_tile);
             x_coordinate += 30;
         }
@@ -27,9 +28,26 @@ void Grid::DrawGrid()
     }
 }
 
+/*
+    Updates the grid every time a tile is changed by the user. 
+    This is called in the main event loop in window.cpp
+*/
+void Grid::RefreshGrid(sf::RenderWindow& window) 
+{
+    for (Tile* tile : this->grid_) 
+    {
+        tile->DrawTile(window);
+    }
+}
+
+/*
+    Clears the grid of all tiles and resets the start/end point lock. 
+    This is called when the user clicks on the "Clear Maze" button in the sidebar.
+*/
 void Grid::ClearGrid() 
 {
-    for (Tile* tile : this->grid_) {
+    for (Tile* tile : this->grid_) 
+    {
         tile->setFloor();
     }
     this->start_point_set_ = false;
@@ -38,20 +56,12 @@ void Grid::ClearGrid()
 
 void Grid::ClearPath() 
 {
-    std::cout << "hello" << std::endl;
     for (Tile* tile : this->grid_) 
     {
         if (tile->getTileState() == 2 || tile->getTileState() == 3) 
         {
             tile->setFloor();
         }
-    }
-}
-
-void Grid::RefreshGrid(sf::RenderWindow& window) 
-{
-    for (Tile* tile : this->grid_) {
-        tile->DrawTile(window);
     }
 }
 
@@ -67,7 +77,6 @@ void Grid::TilePressed(Coordinates cursor_coordinate)
                 case CursorAsStartPoint: 
                     if (this->start_point_set_) 
                     {
-                        std::cout << "Startpoint has been established " <<  std::endl;
                         break;
                     } 
                     else 
@@ -81,7 +90,6 @@ void Grid::TilePressed(Coordinates cursor_coordinate)
                 case CursorAsEndPoint:
                     if (this->end_point_set_) 
                     {
-                        std::cout << "Endpoint has been established " <<  std::endl;
                         break;
                     } 
                     else 
@@ -95,45 +103,41 @@ void Grid::TilePressed(Coordinates cursor_coordinate)
                     break;
                 case CursorAsWall:
                     tile->setWall();
+                    // Call both functions to maintain the start/end points if they have been set by the user
                     LockStartPoint(tile, cursor_coordinate.x, cursor_coordinate.y);
                     LockEndPoint(tile, cursor_coordinate.x, cursor_coordinate.y);
                     break;
             }
         }
     }
-
-    // TODO: Run a check to see if the start/end point has already been established -> if so, reset tile option to wall
 }
 
 /*
-    TODO: Add a function to lock a tile as start/end point once it has been set by the user. Only clearing the maze will 
-    reset the start/end point lock. This will prevent the user from accidentally changing the start/end point tile when they 
-    meant to set a wall tile.
-
-    - save coordinates of start/end point
-    - when user clicks on a tile, check if the tile coordinates match with the saved coordinates
-    - because setWall() is called on mousepressed, reset the tile to start/end point if the coordinates match
+    Locks the END point in place so that it cannot be overridden by the user when they click on the "Wall" button. 
+    This is called in the TilePressed function.
 */
 void Grid::LockStartPoint(Tile* tile, int coordinate_x, int coordinate_y)
 {
     if (coordinate_x == this->start_point_x && coordinate_y == this->start_point_y)
     {
         tile->setStartPoint();
-        std::cout << "Startpoint locked" << std::endl;
     }
 }
 
+/*
+    Locks the START point in place so that it cannot be overridden by the user when they click on the "Wall" button. 
+    This is called in the TilePressed function.
+*/
 void Grid::LockEndPoint(Tile* tile, int coordinate_x, int coordinate_y)
 {
     if (coordinate_x == this->end_point_x && coordinate_y == this->end_point_y)
     {
         tile->setEndPoint();
-        std::cout << "Endpoint locked" << std::endl;
     }
 }
 
 /*
-    The active tile state is updated when the user clicks on either the start/end point button
+    The active tile state is updated when the user clicks on either the start/end/wall buttons
 */
 void Grid::ChangeActiveTile(ActiveTileState user_input)
 {
@@ -144,10 +148,16 @@ void Grid::ChangeActiveTile(ActiveTileState user_input)
     else 
     {
         this->active_tile_state_ = user_input;
-        std::cout << "ACTIVE: " << this->active_tile_state_ << std::endl;
     }
+    this->active_tile_state_ = user_input;
 }
 
+/*
+    Checks if a start/end point has already been set by the user. If so, it returns true and the active tile state is reset to "Wall" to prevent the user from overriding the start/end point. 
+    This is called in the ChangeActiveTile function.
+*/
+// TODO: Refactor this function to be more efficient by using a boolean variable to track if the start/end point has been set instead of iterating through the entire grid every time the user clicks on a tile.I
+// Redundant function since we are already tracking the start/end point with boolean variables. Can be removed in future refactor.
 bool Grid::CheckTiles(int tile_state)
 {
     // Add a check to see if a start/end point is already establish -> return a warning
@@ -155,7 +165,6 @@ bool Grid::CheckTiles(int tile_state)
     {
         if (this->active_tile_state_ == tile_state && tile->getTileState() == tile_state)
         {
-            std::cout << "Tile state has been established" << std::endl;
             return true;
         }
     }

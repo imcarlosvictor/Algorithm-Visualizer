@@ -9,7 +9,8 @@ LIB      := lib
 
 # Libraries to link
 LDFLAGS  := -L$(LIB)
-LIBS     := -ltgui -lsfml-graphics -lsfml-window -lsfml-system
+# LIBS     := -ltgui -lsfml-graphics -lsfml-window -lsfml-system
+LIBS := -ltgui -lsfml-graphics -lsfml-window -lsfml-system -lGL -lX11 -lXrandr -lfreetype -lpthread -ldl
 
 # Output executable
 EXEC     := app_visualizer

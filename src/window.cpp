@@ -113,8 +113,7 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
     /*         // Create pathfinding class */
     /*         }) */
     gui.add(algo_btn);
-    
-    // TODO: Add startpoint and endpoint buttons    
+
     // Add Startpoint button
     auto add_startpoint_btn = tgui::Button::create();
     add_startpoint_btn->setText("Start");
@@ -160,7 +159,7 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
 
     // Reset maze button
     auto clear_maze_btn = tgui::Button::create();
-    clear_maze_btn->setText("Clear Maze");
+    clear_maze_btn->setText("Clear Grid");
     clear_maze_btn->getRenderer()->setBackgroundColor(sf::Color(43,45,48));
     clear_maze_btn->getRenderer()->setBorderColor(sf::Color(10,10,10));
     clear_maze_btn->getRenderer()->setTextColor(sf::Color(191,191,191));
@@ -206,12 +205,12 @@ void SFMLWindow::LoadTGUIWidgets(tgui::GuiBase& gui, Grid* grid_ptr)
 */
 void SFMLWindow::LoadSFMLWidgets(sf::RenderWindow& window)
 {
-    CreateLegendTile(window, 30, 30, 43, 460, 251, 255, 108);  // Startpoint tile
+    CreateLegendTile(window, 30, 30, 43, 460, 158, 248, 10);  // Startpoint tile
     CreateLegendTile(window, 30, 30, 43, 500, 255, 67, 38);  // Endpoint tile
-    CreateLegendTile(window, 30, 30, 43, 540, 80, 99, 133);  // Path tile
-    CreateLegendTile(window, 30, 30, 43, 580, 191, 191, 191);  // Explored tile
-    CreateLegendTile(window, 30, 30, 180, 460, 34, 37, 38);  // Floor tile
-    CreateLegendTile(window, 30, 30, 180, 500, 10, 10, 10);  // Border tile
+    CreateLegendTile(window, 30, 30, 43, 540, 254, 224, 0);  // Path tile
+    CreateLegendTile(window, 30, 30, 43, 580, 20, 122, 247);  // Explored tile
+    CreateLegendTile(window, 30, 30, 180, 460, 10, 10, 10);  // Floor tile
+    CreateLegendTile(window, 30, 30, 180, 500, 68, 66, 68);  // Wall tile
 }
 
 void SFMLWindow::CreateLegendLabel(tgui::GuiBase& gui, std::string text, int size, int x, int y)
