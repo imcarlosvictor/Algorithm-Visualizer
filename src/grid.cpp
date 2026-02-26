@@ -85,6 +85,8 @@ void Grid::TilePressed(Coordinates cursor_coordinate)
                         this->start_point_set_ = true;
                         this->start_point_x = tile->getXCoordinate();
                         this->start_point_y = tile->getYCoordinate();
+                        this->getTileNeighbors(cursor_coordinate);
+                        std::cout << this->grid_.size() << std::endl;
                         break;
                     }
                 case CursorAsEndPoint:
@@ -98,6 +100,7 @@ void Grid::TilePressed(Coordinates cursor_coordinate)
                         this->end_point_set_ = true;
                         this->end_point_x = tile->getXCoordinate();
                         this->end_point_y = tile->getYCoordinate();
+                        this->getTileNeighbors(cursor_coordinate);
                         break;
                     }
                     break;
@@ -141,158 +144,135 @@ void Grid::LockEndPoint(Tile* tile, int coordinate_x, int coordinate_y)
 */
 void Grid::ChangeActiveTile(ActiveTileState user_input)
 {
-    if (this->CheckTiles(user_input))
-    {
-        this->active_tile_state_ = CursorAsWall;
-    } 
-    else 
-    {
-        this->active_tile_state_ = user_input;
-    }
     this->active_tile_state_ = user_input;
 }
 
 /*
-    Checks if a start/end point has already been set by the user. If so, it returns true and the active tile state is reset to "Wall" to prevent the user from overriding the start/end point. 
-    This is called in the ChangeActiveTile function.
+    Gets the neighboring tiles of a tile that the user clicks on. This is used for the maze generation algorithms. 
+    This is called in the TilePressed function.
 */
-// TODO: Refactor this function to be more efficient by using a boolean variable to track if the start/end point has been set instead of iterating through the entire grid every time the user clicks on a tile.I
-// Redundant function since we are already tracking the start/end point with boolean variables. Can be removed in future refactor.
-bool Grid::CheckTiles(int tile_state)
-{
-    // Add a check to see if a start/end point is already establish -> return a warning
-    for (Tile* tile : this->grid_)
-    {
-        if (this->active_tile_state_ == tile_state && tile->getTileState() == tile_state)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 void Grid::getTileNeighbors(Coordinates coordinate) 
 {
     // Find index of the pressed tile in the vector
     long unsigned int tile_vip_index = 0;
-    for (long unsigned int i=0; i<this->grid_.size(); i++) {
+    for (long unsigned int i = 0; i < this->grid_.size(); i++) {
         if (this->grid_[i]->getXCoordinate() == coordinate.x && this->grid_[i]->getYCoordinate() == coordinate.y)
             tile_vip_index = i;
     }
 
     // Get index of neighboring tiles
-    // ---------------- [ TOP ] ----------------
-    // Top and Bottom neighbors
+    // ----------------------------------------------- [ TOP ] -----------------------------------------------
+    // TOP & BOTTOM TILE if i is within the grid 
     if (tile_vip_index >= 40 && tile_vip_index <= 1159) {
         int top_mid_tile_index = tile_vip_index - 40;
         int bottom_mid_tile_index = tile_vip_index + 40;
 
-        /* this->grid_[top_mid_tile_index]->setWall(); */
-        /* this->grid_[bottom_mid_tile_index]->setWall(); */
+        this->grid_[top_mid_tile_index]->setWall();
+        this->grid_[bottom_mid_tile_index]->setWall();
 
         std::cout << "-----------------------------------------------------" << std::endl;
         std::cout << "Top middle tile: " << this->grid_[top_mid_tile_index]->getTileState() << std::endl;
         std::cout << "Bottom middle tile: " << this->grid_[bottom_mid_tile_index]->getTileState() << std::endl;
     }
     
-    // Top neighbors
+    // TOP OF GRID 
     if (tile_vip_index < 40) {
         int bottom_mid_tile_index = tile_vip_index + 40;
 
-        /* this->grid_[bottom_mid_tile_index]->setWall(); */
+        this->grid_[bottom_mid_tile_index]->setWall(); 
 
         std::cout << "Bottom middle tile: " << this->grid_[bottom_mid_tile_index]->getTileState() << std::endl;
     }
 
-    // Bottom neighbors
+    // BOTTOM OF GRID 
     if (tile_vip_index > 1159) {
         int top_mid_tile_index = tile_vip_index - 40;
 
-        /* this->grid_[top_mid_tile_index]->setWall(); */
+        this->grid_[top_mid_tile_index]->setWall();
 
         std::cout << "Top middle tile: " << this->grid_[top_mid_tile_index]->getTileState() << std::endl;
     }
 
 
-    // ---------------- [ RIGHT ] ----------------
-    // Right neighbors
+    // ----------------------------------------------- [ RIGHT ] -----------------------------------------------
+    // RIGHT TILE if [i] is within the grid 
     if ((tile_vip_index + 1) % 40 != 0 && tile_vip_index >= 40 && tile_vip_index <= 1159) {
-        int top_right_tile_index = tile_vip_index - 39;
         int right_tile_index = tile_vip_index + 1;
-        int bottom_right_tile_index = tile_vip_index + 41;
+        // int top_right_tile_index = tile_vip_index - 39;
+        // int bottom_right_tile_index = tile_vip_index + 41;
 
+        this->grid_[right_tile_index]->setWall();
         /* this->grid_[top_right_tile_index]->setWall(); */
-        /* this->grid_[right_tile_index]->setWall(); */
         /* this->grid_[bottom_right_tile_index]->setWall(); */
 
-        std::cout << "Top right tile: " << this->grid_[top_right_tile_index]->getTileState() << std::endl;
         std::cout << "Right tile: " << this->grid_[right_tile_index]->getTileState() << std::endl;
-        std::cout << "Bottom right tile: " << this->grid_[bottom_right_tile_index]->getTileState() << std::endl;
+        // std::cout << "Top right tile: " << this->grid_[top_right_tile_index]->getTileState() << std::endl;
+        // std::cout << "Bottom right tile: " << this->grid_[bottom_right_tile_index]->getTileState() << std::endl;
     }
     
-    // Top neighbors
+    // TOP OF GRID 
     if (tile_vip_index <= 38) {
         int right_tile_index = tile_vip_index + 1;
-        int bottom_right_tile_index = tile_vip_index + 41;
+        // int bottom_right_tile_index = tile_vip_index + 41;
 
+         this->grid_[right_tile_index]->setWall();
         /* this->grid_[bottom_right_tile_index]->setWall(); */
-        /* this->grid_[right_tile_index]->setWall(); */
 
         std::cout << "Right tile: " << this->grid_[right_tile_index]->getTileState() << std::endl;
-        std::cout << "Bottom right tile: " << this->grid_[bottom_right_tile_index]->getTileState() << std::endl;
+        // std::cout << "Bottom right tile: " << this->grid_[bottom_right_tile_index]->getTileState() << std::endl;
     }
 
-    // Bottom neighbors
+    // BOTTOM OF GRID 
     if (tile_vip_index > 1159 && tile_vip_index != 1199) {
         int right_tile_index = tile_vip_index + 1;
-        int top_right_tile_index = tile_vip_index - 39;
+        // int top_right_tile_index = tile_vip_index - 39;
 
-        /* this->grid_[right_tile_index]->setWall(); */
+        this->grid_[right_tile_index]->setWall();
         /* this->grid_[top_right_tile_index]->setWall(); */
 
         std::cout << "Right tile: " << this->grid_[right_tile_index]->getTileState() << std::endl;
-        std::cout << "Top right tile: " << this->grid_[top_right_tile_index]->getTileState() << std::endl;
+        // std::cout << "Top right tile: " << this->grid_[top_right_tile_index]->getTileState() << std::endl;
     }
 
 
-    // ---------------- [ LEFT ] ----------------
+    // ----------------------------------------------- [ LEFT ] -----------------------------------------------
     // Left neighbors
     if (tile_vip_index % 40 != 0 && tile_vip_index >= 40 && tile_vip_index <= 1159) {
-        int top_left_tile_index = tile_vip_index - 41;
         int left_tile_index = tile_vip_index - 1;
-        int bottom_left_tile_index = tile_vip_index + 39;
+        // int top_left_tile_index = tile_vip_index - 41;
+        // int bottom_left_tile_index = tile_vip_index + 39;
 
+        this->grid_[left_tile_index]->setWall();
         /* this->grid_[top_left_tile_index]->setWall(); */
-        /* this->grid_[left_tile_index]->setWall(); */
         /* this->grid_[bottom_left_tile_index]->setWall(); */
 
-        std::cout << "Top left tile: " << this->grid_[top_left_tile_index]->getTileState() << std::endl;
         std::cout << "Left tile: " << this->grid_[left_tile_index]->getTileState() << std::endl;
-        std::cout << "Bottom left tile: " << this->grid_[bottom_left_tile_index]->getTileState() << std::endl;
+        // std::cout << "Top left tile: " << this->grid_[top_left_tile_index]->getTileState() << std::endl;
+        // std::cout << "Bottom left tile: " << this->grid_[bottom_left_tile_index]->getTileState() << std::endl;
     } 
 
-    // Top neighbors
+    // TOP OF GRID 
     if (tile_vip_index < 40 && tile_vip_index > 0) {
         int left_tile_index = tile_vip_index - 1;
-        int bottom_left_tile_index = tile_vip_index + 39;
+        // int bottom_left_tile_index = tile_vip_index + 39;
 
-        /* this->grid_[left_tile_index]->setWall(); */
+        this->grid_[left_tile_index]->setWall();
         /* this->grid_[bottom_left_tile_index]->setWall(); */
 
         std::cout << "Left tile: " << this->grid_[left_tile_index]->getTileState() << std::endl;
-        std::cout << "Bottom left tile: " << this->grid_[bottom_left_tile_index]->getTileState() << std::endl;
+        // std::cout << "Bottom left tile: " << this->grid_[bottom_left_tile_index]->getTileState() << std::endl;
     }
 
-    // Bottom neighbors
+    // BOTTOM OF GRID 
     if (tile_vip_index > 1160 && tile_vip_index == 1199) {
         int left_tile_index = tile_vip_index - 1;
-        int top_left_tile_index = tile_vip_index - 41;
+        // int top_left_tile_index = tile_vip_index - 41;
 
-        /* this->grid_[left_tile_index]->setWall(); */
+        this->grid_[left_tile_index]->setWall();
         /* this->grid_[top_left_tile_index]->setWall(); */
 
         std::cout << "Left tile: " << this->grid_[left_tile_index]->getTileState() << std::endl;
-        std::cout << "Top left tile: " << this->grid_[top_left_tile_index]->getTileState() << std::endl;
+        // std::cout << "Top left tile: " << this->grid_[top_left_tile_index]->getTileState() << std::endl;
     }
 }
 

@@ -39,7 +39,6 @@ class Grid
         void LockStartPoint(Tile* tile, int coordinate_x, int coordinate_y);
         void LockEndPoint(Tile* tile, int coordinate_x, int coordinate_y);
         void ChangeActiveTile(ActiveTileState user_input);
-        bool CheckTiles(int tile_state);
         void getTileNeighbors(Coordinates);
         Coordinates getMousePos(sf::Vector2i mouse_pos);
         GridDimension getGridDimension();
